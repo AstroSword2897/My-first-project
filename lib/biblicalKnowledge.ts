@@ -1,3 +1,37 @@
+// Core theological frameworks and interfaces
+export interface ExperiencingGodPrinciples {
+  godsActivity: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+  loveRelationship: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+  divineInvitation: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+  crisisOfBelief: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+  adjustment: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+  obedience: {
+    description: string;
+    scripturalBasis: string[];
+    application: string;
+  };
+}
+
 export interface VerseExplanation {
   reference: string;
   text: string;
@@ -5,6 +39,7 @@ export interface VerseExplanation {
     historical: string;
     literary: string;
     theological: string;
+    godsActivity?: string; // How God is at work in this passage
   };
   exegesis: {
     originalLanguage: {
@@ -20,11 +55,13 @@ export interface VerseExplanation {
     literal: string;
     theological: string;
     practical: string;
+    godsInvitation?: string; // God's specific invitation in this passage
   };
   application: {
     personal: string[];
     communal: string[];
     contemporary: string[];
+    adjustmentsNeeded?: string[]; // Adjustments needed to join God's work
   };
   crossReferences: {
     ot: string[];
@@ -34,6 +71,13 @@ export interface VerseExplanation {
   furtherStudy: {
     questions: string[];
     resources: string[];
+    blackabyInsights?: string[]; // Specific insights from Experiencing God
+  };
+  experiencingGod?: {
+    godsActivity: string;
+    invitation: string;
+    crisisPoints: string[];
+    requiredAdjustments: string[];
   };
 }
 
@@ -44,7 +88,45 @@ interface BookMetadata {
   purpose: string;
   keyThemes: string[];
   outline: string[];
+  godsActivity?: string; // How God is at work in this book
+  divineInvitations?: string[]; // Key divine invitations in the book
+  crisisPoints?: string[]; // Major crises of belief in the book
+  theologicalEmphases?: string[]; // Theological themes that align with Experiencing God
 }
+
+// Core principles from 'Experiencing God' by Henry Blackaby and Claude King
+export const experiencingGodPrinciples: ExperiencingGodPrinciples = {
+  godsActivity: {
+    description: 'God is always at work around you, inviting you to join Him in His work.',
+    scripturalBasis: ['John 5:17', 'John 5:19-20', 'John 14:10'],
+    application: 'Develop spiritual sensitivity to recognize God\'s work in your life and world.'
+  },
+  loveRelationship: {
+    description: 'God pursues a continuing love relationship with you that is real and personal.',
+    scripturalBasis: ['John 15:15', '1 John 1:3', 'Revelation 3:20'],
+    application: 'Prioritize your relationship with God above all else.'
+  },
+  divineInvitation: {
+    description: 'God invites you to become involved with Him in His work.',
+    scripturalBasis: ['John 17:18', 'Matthew 28:18-20', 'Acts 1:8'],
+    application: 'Be open to God\'s invitations to join Him in His work.'
+  },
+  crisisOfBelief: {
+    description: 'God\'s invitation will lead you to a crisis of belief that requires faith and action.',
+    scripturalBasis: ['Hebrews 11:6', 'James 2:17', '2 Corinthians 5:7'],
+    application: 'Be prepared to step out in faith when God calls.'
+  },
+  adjustment: {
+    description: 'You must make major adjustments in your life to join God in what He is doing.',
+    scripturalBasis: ['Genesis 12:1-4', 'Luke 5:1-11', 'Matthew 4:18-22'],
+    application: 'Be willing to make necessary changes to follow God\'s leading.'
+  },
+  obedience: {
+    description: 'You come to know God by experience as you obey Him, and He accomplishes His work through you.',
+    scripturalBasis: ['John 14:21', '1 Samuel 15:22', 'John 2:5'],
+    application: 'Obey God immediately and completely when He speaks.'
+  }
+};
 
 export const bookMetadata: Record<string, BookMetadata> = {
   'genesis': {
@@ -63,6 +145,24 @@ export const bookMetadata: Record<string, BookMetadata> = {
       'Abraham (12-25)',
       'Isaac and Jacob (25-36)',
       'Joseph (37-50)'
+    ],
+    godsActivity: 'In Genesis, God is actively creating, judging, and establishing His covenant relationship with humanity through individuals like Noah, Abraham, Isaac, Jacob, and Joseph.',
+    divineInvitations: [
+      'God invites Adam and Eve to partner in caring for creation (1:28)',
+      'God calls Abram to leave his country (12:1-3)',
+      'God invites Jacob to return to Bethel (35:1)'
+    ],
+    crisisPoints: [
+      'Adam and Eve\'s choice in the Garden',
+      'Noah building the ark',
+      'Abraham leaving Ur and later sacrificing Isaac',
+      'Joseph forgiving his brothers'
+    ],
+    theologicalEmphases: [
+      'God\'s sovereignty in human affairs',
+      'The importance of faith and obedience',
+      'God\'s faithfulness to His promises',
+      'Redemption through testing and trials'
     ]
   },
   'matthew': {
@@ -81,6 +181,24 @@ export const bookMetadata: Record<string, BookMetadata> = {
       'Ministry in Galilee (3-18)',
       'Journey to Jerusalem (19-20)',
       'Passion Week (21-28)'
+    ],
+    godsActivity: 'In Matthew, God is actively fulfilling His redemptive plan through Jesus Christ, establishing His kingdom, and calling disciples to follow Him.',
+    divineInvitations: [
+      'Jesus calls the first disciples (4:18-22)',
+      'The Great Commission (28:18-20)',
+      'Invitation to the weary and burdened (11:28-30)'
+    ],
+    crisisPoints: [
+      'Peter walking on water (14:22-33)',
+      'The rich young ruler (19:16-22)',
+      'Peter\'s denial (26:69-75)',
+      'The Great Commission (28:16-20)'
+    ],
+    theologicalEmphases: [
+      'The kingdom of heaven as present and future reality',
+      'Righteousness that exceeds that of the Pharisees',
+      'The cost of discipleship',
+      'God\'s presence with His people (Immanuel)'
     ]
   }
   // Add more books as needed

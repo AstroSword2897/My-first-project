@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
+  compiler: {
+    swcMinify: true,
+  },
   // Enable experimental features if needed
   experimental: {
     // Add experimental features here

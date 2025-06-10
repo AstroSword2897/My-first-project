@@ -6,11 +6,15 @@ type Message = {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
+  verseReference?: string;
+  showExplanation?: boolean;
 };
 
 export default function ChatInterface() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [explanationLoading, setExplanationLoading] = useState<string | null>(null);
+  const [explanations, setExplanations] = useState<Record<string, string>>({});
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -57,6 +61,54 @@ export default function ChatInterface() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  // Check if a message contains a Bible verse reference
+  const extractVerseReference = (text: string): string | undefined => {
+    // This regex looks for patterns like 'Genesis 1:1' or 'John 3:16-17'
+    const verseMatch = text.match(/\b(?:1|2|3)?\s*[A-Za-z]+\s+\d+:\d+(?:-\d+)?\b/);
+    return verseMatch ? verseMatch[0] : undefined;
+  };
+
+  const fetchExplanation = async (messageId: string, verseRef: string) => {
+    setExplanationLoading(messageId);
+    try {
+      const response = await fetch(`/api/explain-verse?verse=${encodeURIComponent(verseRef)}`);
+      if (!response.ok) throw new Error('Failed to fetch explanation');
+      const data = await response.json();
+      
+      setExplanations(prev => ({
+        ...prev,
+        [messageId]: data.explanation || 'No explanation available.'
+      }));
+      
+      // Update the message to show explanation
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId 
+          ? { ...msg, showExplanation: true }
+          : msg
+      ));
+    } catch (error) {
+      console.error('Error fetching explanation:', error);
+      setExplanations(prev => ({
+        ...prev,
+        [messageId]: 'Failed to load explanation. Please try again.'
+      }));
+    } finally {
+      setExplanationLoading(null);
+    }
+  };
+
+  const handleShowExplanation = (messageId: string, verseRef: string) => {
+    if (explanations[messageId]) {
+      setMessages(prev => prev.map(msg => 
+        msg.id === messageId 
+          ? { ...msg, showExplanation: !msg.showExplanation }
+          : msg
+      ));
+    } else {
+      fetchExplanation(messageId, verseRef);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -82,9 +134,16 @@ export default function ChatInterface() {
         body: JSON.stringify({ message: input }),
       });
 
-      if (!response.ok) throw new Error('Failed to get response');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
+      
+      if (!data.response) {
+        throw new Error('Invalid response format from server');
+      }
 
       // Add bot response
       const botMessage: Message = {
@@ -92,6 +151,8 @@ export default function ChatInterface() {
         text: data.response,
         sender: 'bot',
         timestamp: new Date(),
+        verseReference: extractVerseReference(data.response),
+        showExplanation: false
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -130,7 +191,31 @@ export default function ChatInterface() {
               >
                 <div className="whitespace-pre-wrap">
                   {message.sender === 'bot' ? (
-                    parseMessageText(message.text)
+                    <>
+                      {parseMessageText(message.text)}
+                      {message.verseReference && (
+                        <div className="mt-2">
+                          <button
+                            onClick={() => message.verseReference && handleShowExplanation(message.id, message.verseReference)}
+                            disabled={explanationLoading === message.id || !message.verseReference}
+                            className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded transition-colors flex items-center"
+                          >
+                            {explanationLoading === message.id ? (
+                              'Loading...'
+                            ) : message.showExplanation ? (
+                              'Hide Explanation'
+                            ) : (
+                              'Show Explanation'
+                            )}
+                          </button>
+                          {message.showExplanation && explanations[message.id] && (
+                            <div className="mt-2 p-2 bg-gray-50 text-sm rounded border border-gray-200">
+                              {explanations[message.id]}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
                   ) : (
                     message.text
                   )}
