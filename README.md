@@ -1,1 +1,1 @@
-# My-first-project
+# Bible Study Buddy
