@@ -1,6 +1,6 @@
 {
   "name": "biblical-chatbot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
     "@sentry/nextjs": "^9.27.0",
     "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
