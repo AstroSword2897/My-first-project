@@ -1,4 +1,4 @@
-# Biblical Chatbot & Study Tool
+# Biblical Chatbot & Study Tool 3.0
 
 A comprehensive web application for exploring the Bible, studying biblical characters, and getting AI-powered spiritual guidance.
 
@@ -13,7 +13,9 @@ A comprehensive web application for exploring the Bible, studying biblical chara
 ## Tech Stack
 
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS
-- **UI Components**: Headless UI, Hero Icons
+- **AI/ML**: @xenova/transformers, faiss-node
+- **UI Components**: Lucide React
+- **Logging**: Winston
 - **Build Tools**: Webpack, Babel
 - **Linting/Formatting**: ESLint, Prettier
 
@@ -21,8 +23,9 @@ A comprehensive web application for exploring the Bible, studying biblical chara
 
 ### Prerequisites
 
-- Node.js (v14 or later)
+- Node.js (v18 or later)
 - npm or yarn
+- **Bible API Key**: Obtain a free API key from [api.bible](https://api.bible/) for verse lookup.
 
 ### Installation
 
@@ -42,11 +45,19 @@ A comprehensive web application for exploring the Bible, studying biblical chara
 3. Start the development server:
    ```bash
    npm run dev
-   # or
-   yarn dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:9899](http://localhost:9899) in your browser.
+
+## Environment Variables
+
+Create a `.env.local` file in the root of your project and add the following:
+
+```
+BIBLE_API_KEY=YOUR_API_KEY_HERE
+```
+
+Replace `YOUR_API_KEY_HERE` with the actual API key you obtained from [api.bible](https://api.bible/).
 
 ## Project Structure
 
@@ -67,11 +78,10 @@ biblical-chatbot/
 
 ## Available Scripts
 
-- `npm run dev` - Start the development server
+- `npm run dev` - Start the development server (runs on port 9899)
 - `npm run build` - Build the application for production
 - `npm start` - Start the production server
 - `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
 
 ## Contributing
 
@@ -85,6 +95,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Next.js](https://nextjs.org/) - The React Framework for Production
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
-- [Headless UI](https://headlessui.com/) - Unstyled, accessible UI components
-- [Hero Icons](https://heroicons.com/) - Beautiful hand-crafted SVG icons
->>>>>>> b690b93 (feat: Enhance Bible reader and search functionality)
+- [@xenova/transformers](https://github.com/xenova/transformers.js) - JavaScript implementation of Transformers
+- [Lucide React](https://lucide.dev/) - Beautiful hand-crafted SVG icons

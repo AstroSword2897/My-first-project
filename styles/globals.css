@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles can be added below */
+/* Custom styles for light theme */
+html,
 body {
-  @apply bg-gray-100;
+  @apply bg-gray-100 text-gray-900;
+}
+
+/* Custom styles for dark theme */
+html.dark,
+html.dark body {
+  @apply bg-gray-900 text-gray-100;
 }
