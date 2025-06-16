@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BibleVerse {
+  id        String   @id @default(cuid())
+  book      String
+  chapter   Int
+  verse     Int
+  text      String   @db.Text
+  version   String   @default("NASB")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userNotes UserNote[]
+
+  @@unique([book, chapter, verse, version])
+  @@index([book, chapter, verse])
+}
+
+model UserNote {
+  id        String   @id @default(cuid())
+  verseId   String
+  verse     BibleVerse @relation(fields: [verseId], references: [id])
+  content   String   @db.Text
+  type      NoteType @default(HIGHLIGHT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([verseId])
+}
+
+model SearchHistory {
+  id        String   @id @default(cuid())
+  query     String
+  results   Int
+  createdAt DateTime @default(now())
+
+  @@index([query])
+}
+
+enum NoteType {
+  HIGHLIGHT
+  NOTE
+  BOOKMARK
+}
