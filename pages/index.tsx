@@ -2,7 +2,8 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { BookOpenIcon, UserGroupIcon, ChatBubbleLeftRightIcon, MagnifyingGlassIcon, GlobeAltIcon, HeartIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { BookOpenIcon, UserGroupIcon, ChatBubbleLeftRightIcon, MagnifyingGlassIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
+import { FaCross, FaDove } from 'react-icons/fa';
 
 // Import ChatInterface with SSR disabled to avoid window is not defined errors
 const ChatInterface = dynamic(() => import('../components/ChatInterface'), {
@@ -42,7 +43,7 @@ const featureCards = [
   {
     name: 'Search Scripture',
     description: 'Quickly find verses and passages across the Bible.',
-    href: '#',
+    href: '/search',
     icon: MagnifyingGlassIcon,
     bgColor: 'bg-yellow-50 dark:bg-yellow-900',
     textColor: 'text-yellow-600 dark:text-yellow-200',
@@ -51,7 +52,7 @@ const featureCards = [
 
 const Home: NextPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-background text-gray-100">
       <Head>
         <title>Biblical Chatbot - Explore the Bible & Connect with Faith</title>
         <meta name="description" content="Explore the Bible, study biblical characters, and get spiritual guidance with our interactive tools and AI chatbot." />
@@ -60,75 +61,47 @@ const Home: NextPage = () => {
 
       <main>
         {/* Hero Section */}
-        <div className="bg-white dark:bg-gray-800">
-          <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl md:text-6xl">
-              <span className="block">Biblical Guidance</span>
-              <span className="block text-blue-600">for Modern Believers</span>
-            </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-gray-500 dark:text-gray-300 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              Explore the Bible, study biblical characters, and find spiritual guidance with our interactive tools and AI chatbot.
-            </p>
-            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-              <div className="rounded-md shadow">
-                <Link 
-                  href="/bible"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-                >
-                  Read the Bible
-                </Link>
-              </div>
-              <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-                <Link 
-                  href="#chat"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 md:py-4 md:text-lg md:px-10"
-                >
-                  Chat with AI
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Removed Biblical Guidance for Modern Believers section */}
 
         {/* Holy Trinity Section */}
-        <div className="py-12 bg-gray-900 text-gray-100">
+        <div className="py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl mb-12">
-              Our Foundation: The Holy Trinity
+              The Holy Trinity
             </h2>
             <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-3">
               {/* The Father */}
-              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gray-800 border border-gray-700">
-                <GlobeAltIcon className="h-16 w-16 text-blue-400 mb-4" aria-hidden="true" />
+              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gradient-father border border-gray-700">
+                <BookOpenIcon className="h-16 w-16 text-blue-400 mb-4" aria-hidden="true" />
                 <h3 className="text-2xl font-semibold mb-2">God the Father</h3>
-                <p className="text-lg text-gray-300">The Creator, Sustainer, and Source of all life. His boundless love and sovereignty guide us.</p>
+                <p className="text-lg text-gray-300">God the Father, our loving Creator, cares for us with boundless love and guides us with His unfailing wisdom. He's the source of all life and our ultimate comfort.</p>
               </div>
 
               {/* The Son */}
-              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gray-800 border border-gray-700">
-                <HeartIcon className="h-16 w-16 text-red-400 mb-4" aria-hidden="true" />
+              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gradient-son border border-gray-700">
+                <FaCross className="h-16 w-16 text-red-400 mb-4" aria-hidden="true" />
                 <h3 className="text-2xl font-semibold mb-2">God the Son</h3>
-                <p className="text-lg text-gray-300">Jesus Christ, our Savior and Redeemer. Through His sacrifice, we find grace and eternal life.</p>
+                <p className="text-lg text-gray-300">God the Son, Jesus Christ, is our compassionate Savior and friend. Through His loving sacrifice, we receive grace, forgiveness, and the promise of eternal life.</p>
               </div>
 
               {/* The Holy Spirit */}
-              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gray-800 border border-gray-700">
-                <SparklesIcon className="h-16 w-16 text-yellow-400 mb-4" aria-hidden="true" />
+              <div className="flex flex-col items-center p-6 rounded-lg shadow-xl bg-gradient-spirit border border-gray-700">
+                <FaDove className="h-16 w-16 text-yellow-400 mb-4" aria-hidden="true" />
                 <h3 className="text-2xl font-semibold mb-2">God the Holy Spirit</h3>
-                <p className="text-lg text-gray-300">Our Comforter, Counselor, and Guide. He empowers us to live a life aligned with God's will.</p>
+                <p className="text-lg text-gray-300">God the Holy Spirit is our constant Comforter, wise Counselor, and faithful Guide. He lives within us, empowering us with strength, peace, and understanding as we walk with God.</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Features Section */}
-        <div className="py-12 bg-gray-50 dark:bg-gray-900">
+        <div className="py-12 bg-gray-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:text-center">
-              <p className="text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+              <p className="text-3xl leading-8 font-extrabold tracking-tight text-gray-100 sm:text-4xl">
                 <span className="italic">"For God has not given us a spirit of timidity, but of power and love and discipline."</span>
               </p>
-              <p className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto">
+              <p className="mt-4 max-w-2xl text-xl text-gray-300 lg:mx-auto">
                 Remember you still need to actually read the Bible and put on the armour of God and as it says in 2 Corindthians 5:7 NASB, "'For we walk by faith, not by sight."
               </p>
             </div>
@@ -141,18 +114,18 @@ const Home: NextPage = () => {
                     href={feature.href}
                     className="group block h-full"
                   >
-                    <div className="h-full bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col">
+                    <div className="h-full bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 flex flex-col">
                       <div>
                         <span className={`inline-flex items-center justify-center p-3 rounded-md ${feature.bgColor} ${feature.textColor}`}>
                           <feature.icon className="h-6 w-6" aria-hidden="true" />
                         </span>
                       </div>
-                      <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">{feature.name}</h3>
-                      <p className="mt-2 text-base text-gray-500 dark:text-gray-300">{feature.description}</p>
+                      <h3 className="mt-4 text-lg font-medium text-gray-100">{feature.name}</h3>
+                      <p className="mt-2 text-base text-gray-300">{feature.description}</p>
                       <div className="mt-4">
-                        <span className="inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-500 dark:text-blue-400 dark:group-hover:text-blue-300">
+                        <span className="inline-flex items-center text-sm font-medium text-blue-400 group-hover:text-blue-300">
                           Learn more
-                          <svg className="ml-1 h-4 w-4 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <svg className="ml-1 h-4 w-4 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
                           </svg>
                         </span>
@@ -166,25 +139,25 @@ const Home: NextPage = () => {
         </div>
 
         {/* Chat Section */}
-        <div id="chat" className="py-12 bg-white dark:bg-gray-800">
+        <div id="chat" className="py-12 bg-gray-800">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:text-center mb-10">
-              <h2 className="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">Ask Anything</h2>
-              <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">
+              <h2 className="text-base text-blue-400 font-semibold tracking-wide uppercase">Ask Anything</h2>
+              <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-100 sm:text-4xl">
                 Biblical Guidance Chat
               </p>
-              <p className="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto">
+              <p className="mt-4 max-w-2xl text-xl text-gray-300 lg:mx-auto">
                 Ask questions about the Bible, theology, or seek spiritual guidance.
               </p>
             </div>
-            <div className="bg-white dark:bg-gray-700 rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-gray-700 rounded-lg shadow-lg overflow-hidden">
               <ChatInterface />
             </div>
           </div>
         </div>
 
         {/* CTA Section */}
-        <div className="bg-blue-700 dark:bg-blue-900">
+        <div className="bg-blue-900">
           <div className="max-w-2xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
               <span className="block">Ready to dive deeper?</span>
@@ -193,7 +166,7 @@ const Home: NextPage = () => {
             <p className="mt-4 text-lg leading-6 text-blue-200">Our tools are completely free to use. No signup required.</p>
             <Link 
               href="/bible"
-              className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 sm:w-auto dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
+              className="mt-8 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-300 bg-gray-800 hover:bg-gray-700 sm:w-auto"
             >
               Read the Bible
             </Link>

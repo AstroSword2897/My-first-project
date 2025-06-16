@@ -123,7 +123,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-background text-gray-100">
       <Head>
         <title>{query ? `"${query}" - Bible Search` : 'Bible Search'}</title>
         <meta name="description" content={`Search the Bible for "${query || 'verses and passages'}"`} />
@@ -132,7 +132,7 @@ export default function SearchPage() {
 
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8 text-gray-900">Bible Search</h1>
+          <h1 className="text-3xl font-bold text-center mb-8 text-gray-100">Bible Search</h1>
           
           <div className="mb-8">
             <BibleSearch 
@@ -147,27 +147,27 @@ export default function SearchPage() {
 
           {isLoading ? (
             <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
-              <p className="mt-4 text-gray-600 font-medium">Searching for "{query}"...</p>
-              <p className="text-sm text-gray-500 mt-1">Looking through the scriptures...</p>
+              <div className="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-blue-400"></div>
+              <p className="mt-4 text-gray-300 font-medium">Searching for "{query}"...</p>
+              <p className="text-sm text-gray-400 mt-1">Looking through the scriptures...</p>
             </div>
           ) : error ? (
-            <div className="bg-red-50 border-l-4 border-red-400 p-6 mb-8 rounded-md">
+            <div className="bg-red-900 border-l-4 border-red-700 p-6 mb-8 rounded-md text-red-100">
               <div className="flex">
                 <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <h3 className="text-sm font-medium text-red-800">Error performing search</h3>
-                  <div className="mt-2 text-sm text-red-700">
+                  <h3 className="text-sm font-medium text-red-200">Error performing search</h3>
+                  <div className="mt-2 text-sm text-red-300">
                     <p>{error}</p>
                   </div>
                   <div className="mt-4">
                     <button
                       onClick={() => performSearch(query)}
-                      className="text-sm font-medium text-red-800 hover:text-red-700 focus:outline-none"
+                      className="text-sm font-medium text-red-200 hover:text-red-100 focus:outline-none"
                     >
                       Try again <span aria-hidden="true">→</span>
                     </button>
@@ -179,29 +179,29 @@ export default function SearchPage() {
             results.length > 0 ? (
               <>
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-gray-100">
                     {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
                   </h2>
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-1 text-sm text-gray-400">
                     Showing {Math.min(results.length, 10)} of {results.length} verses
                   </p>
                 </div>
                 <div className="space-y-5">
                   {results.slice(0, 10).map((result, index) => (
-                    <div key={index} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+                    <div key={index} className="bg-gray-800 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
                       <Link href={formatReferenceUrl(result)}>
-                        <a className="block hover:bg-gray-50 transition-colors duration-150">
+                        <a className="block hover:bg-gray-700 transition-colors duration-150">
                           <div className="p-5 md:p-6">
                             <div className="flex items-start">
-                              <div className="flex-shrink-0 bg-blue-50 rounded-lg p-3">
-                                <span className="text-blue-700 font-semibold text-lg">{result.reference}</span>
+                              <div className="flex-shrink-0 bg-blue-900 rounded-lg p-3">
+                                <span className="text-blue-200 font-semibold text-lg">{result.reference}</span>
                               </div>
                               <div className="ml-4 flex-1">
-                                <p className="text-gray-800 leading-relaxed">
+                                <p className="text-gray-200 leading-relaxed">
                                   {result.text}
                                 </p>
                                 <div className="mt-3">
-                                  <span className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500 group">
+                                  <span className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300 group">
                                     Read full chapter
                                     <svg className="ml-1 h-4 w-4 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -218,17 +218,17 @@ export default function SearchPage() {
                 </div>
                 {results.length > 10 && (
                   <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-500">
-                      Showing 10 of {results.length} results. <button className="text-blue-600 hover:text-blue-500 font-medium">Load more</button>
+                    <p className="text-sm text-gray-400">
+                      Showing 10 of {results.length} results. <button className="text-blue-400 hover:text-blue-300 font-medium">Load more</button>
                     </p>
                   </div>
                 )}
               </>
             ) : (
-              <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-                <MagnifyingGlassIcon className="mx-auto h-14 w-14 text-gray-300" />
-                <h3 className="mt-4 text-xl font-medium text-gray-900">No results found</h3>
-                <p className="mt-2 text-gray-600 max-w-md mx-auto">
+              <div className="text-center py-16 bg-gray-800 rounded-xl shadow-sm">
+                <MagnifyingGlassIcon className="mx-auto h-14 w-14 text-gray-600" />
+                <h3 className="mt-4 text-xl font-medium text-gray-100">No results found</h3>
+                <p className="mt-2 text-gray-300 max-w-md mx-auto">
                   We couldn't find any verses matching <span className="font-medium">"{query}"</span>.
                 </p>
                 <div className="mt-6">
@@ -243,8 +243,8 @@ export default function SearchPage() {
                   </button>
                 </div>
                 <div className="mt-8">
-                  <h4 className="text-sm font-medium text-gray-700">Search tips:</h4>
-                  <ul className="mt-2 text-sm text-gray-500 max-w-md mx-auto space-y-1">
+                  <h4 className="text-sm font-medium text-gray-200">Search tips:</h4>
+                  <ul className="mt-2 text-sm text-gray-400 max-w-md mx-auto space-y-1">
                     <li>• Try different keywords or synonyms</li>
                     <li>• Use fewer words for broader results</li>
                     <li>• Check your spelling</li>
@@ -253,42 +253,10 @@ export default function SearchPage() {
               </div>
             )
           ) : (
-            <div className="text-center py-16 bg-white rounded-xl shadow-sm">
-              <div className="max-w-lg mx-auto">
-                <svg className="mx-auto h-16 w-16 text-blue-100" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-                <h2 className="mt-4 text-2xl font-bold text-gray-900">Search the Bible</h2>
-                <p className="mt-3 text-gray-600">
-                  Enter a word, phrase, or reference to find verses in the Bible.
-                </p>
-                <div className="mt-6">
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-blue-800">Examples:</h3>
-                      <ul className="mt-2 space-y-1 text-sm text-blue-700">
-                        <li>• John 3:16</li>
-                        <li>• love is patient</li>
-                        <li>• the Lord is my shepherd</li>
-                      </ul>
-                    </div>
-                    <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="text-sm font-medium text-gray-800">Popular Searches:</h3>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {['faith', 'hope', 'love', 'peace', 'joy', 'forgiveness'].map((term) => (
-                          <button
-                            key={term}
-                            onClick={() => handleSearch(term)}
-                            className="text-xs px-2.5 py-1 bg-white border border-gray-200 rounded-full text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-150"
-                          >
-                            {term}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="text-center py-20">
+              <MagnifyingGlassIcon className="mx-auto h-20 w-20 text-gray-700" />
+              <p className="mt-4 text-xl text-gray-300">Start searching the Bible</p>
+              <p className="mt-2 text-gray-400">Enter keywords or a verse reference above to find passages.</p>
             </div>
           )}
         </div>
