@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback, ReactNode } from 'react';
-import { Send, BookOpen } from 'lucide-react';
+import { Send, BookOpen, AlertTriangle, Heart, MessageCircle } from 'lucide-react';
 
 type Message = {
   id: string;
@@ -8,6 +8,7 @@ type Message = {
   timestamp: Date;
   verseReference?: string;
   showExplanation?: boolean;
+  messageType?: 'guidance' | 'prayer' | 'reflection' | 'study';
 };
 
 export default function ChatInterface() {
@@ -18,11 +19,13 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I am your Biblical Guidance Assistant. How can I help you today?',
+      text: 'Hello! I\'m here to help you explore the Bible and provide spiritual guidance. I can help with:\n\n• Explaining Bible verses and passages\n• Finding relevant scriptures on topics\n• Providing spiritual guidance and prayer help\n• Suggesting cross-references\n\n**Important:** I\'m a tool designed to help you understand Scripture and seek spiritual guidance. For personal spiritual matters, please consult with your pastor, priest, or spiritual mentor. Always pray and seek the Holy Spirit\'s guidance as you study God\'s Word.',
       sender: 'bot',
       timestamp: new Date(),
-    },
+      messageType: 'guidance'
+    }
   ]);
+  const [selectedVerse, setSelectedVerse] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Parse message text to handle markdown links and newlines
@@ -109,19 +112,17 @@ export default function ChatInterface() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
+  const sendMessage = useCallback(async (messageText: string) => {
+    if (!messageText.trim()) return;
 
-    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: input,
+      text: messageText,
       sender: 'user',
-      timestamp: new Date(),
+      timestamp: new Date()
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -131,7 +132,10 @@ export default function ChatInterface() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({
+          message: messageText,
+          selectedVerse: selectedVerse,
+        }),
       });
 
       if (!response.ok) {
@@ -152,26 +156,96 @@ export default function ChatInterface() {
         sender: 'bot',
         timestamp: new Date(),
         verseReference: extractVerseReference(data.response),
-        showExplanation: false
+        showExplanation: false,
+        messageType: data.messageType || 'guidance'
       };
 
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Sorry, I encountered an error. Please try again later.',
+        text: 'I\'m having trouble connecting right now. Please try again, and remember that for personal spiritual guidance, it\'s always best to speak with your pastor or spiritual mentor.',
         sender: 'bot',
         timestamp: new Date(),
+        messageType: 'guidance'
       };
-      setMessages((prev) => [...prev, errorMessage]);
+      setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
+  }, [selectedVerse]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    sendMessage(input);
   };
+
+  const getMessageIcon = (messageType?: string) => {
+    switch (messageType) {
+      case 'prayer':
+        return <MessageCircle className="w-4 h-4 text-purple-500" />;
+      case 'reflection':
+        return <Heart className="w-4 h-4 text-pink-500" />;
+      case 'study':
+        return <BookOpen className="w-4 h-4 text-blue-500" />;
+      default:
+        return <AlertTriangle className="w-4 h-4 text-amber-500" />;
+    }
+  };
+
+  const getMessageStyle = (messageType?: string) => {
+    switch (messageType) {
+      case 'prayer':
+        return 'bg-purple-50 border-purple-200';
+      case 'reflection':
+        return 'bg-pink-50 border-pink-200';
+      case 'study':
+        return 'bg-blue-50 border-blue-200';
+      default:
+        return 'bg-amber-50 border-amber-200';
+    }
+  };
+
+  const guidancePrompts = [
+    "I'm struggling with forgiveness. Can you help me understand what the Bible says?",
+    "How can I find peace in difficult times?",
+    "I need guidance on making an important decision.",
+    "Can you help me pray about my current situation?",
+    "What does the Bible say about trusting God?",
+    "I'm feeling lost and need spiritual direction."
+  ];
 
   return (
     <div className="flex flex-col h-[80vh] max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      {/* Spiritual Guidance Disclaimer */}
+      <div className="bg-amber-50 border-b border-amber-200 p-3">
+        <div className="flex items-start space-x-2">
+          <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+          <div className="text-sm text-amber-800">
+            <p className="font-medium">Spiritual Guidance Tool</p>
+            <p>This AI provides biblical wisdom and spiritual guidance for educational purposes. For personal spiritual matters, counseling, or pastoral care, please consult with your pastor, spiritual mentor, or qualified religious leader.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Guidance Prompts */}
+      <div className="p-3 bg-gray-50 border-b">
+        <p className="text-sm text-gray-600 mb-2">Try asking about:</p>
+        <div className="flex flex-wrap gap-2">
+          {guidancePrompts.map((prompt, index) => (
+            <button
+              key={index}
+              onClick={() => sendMessage(prompt)}
+              className="px-3 py-1.5 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Messages */}
       <div className="flex-1 p-4 overflow-y-auto">
         <div className="space-y-4">
@@ -186,56 +260,64 @@ export default function ChatInterface() {
                 className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                   message.sender === 'user'
                     ? 'bg-blue-600 text-white rounded-br-none'
-                    : 'bg-gray-200 text-gray-800 rounded-bl-none'
+                    : `${getMessageStyle(message.messageType)} border rounded-bl-none`
                 }`}
               >
-                <div className="whitespace-pre-wrap">
-                  {message.sender === 'bot' ? (
-                    <>
-                      {parseMessageText(message.text)}
-                      {message.verseReference && (
-                        <div className="mt-2">
-                          <button
-                            onClick={() => message.verseReference && handleShowExplanation(message.id, message.verseReference)}
-                            disabled={explanationLoading === message.id || !message.verseReference}
-                            className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded transition-colors flex items-center"
-                          >
-                            {explanationLoading === message.id ? (
-                              'Loading...'
-                            ) : message.showExplanation ? (
-                              'Hide Explanation'
-                            ) : (
-                              'Show Explanation'
-                            )}
-                          </button>
-                          {message.showExplanation && explanations[message.id] && (
-                            <div className="mt-2 p-2 bg-gray-50 text-sm rounded border border-gray-200">
-                              {explanations[message.id]}
+                <div className="flex items-start space-x-2">
+                  {message.sender === 'bot' && (
+                    <div className="flex-shrink-0 mt-0.5">
+                      {getMessageIcon(message.messageType)}
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <div className="whitespace-pre-wrap">
+                      {message.sender === 'bot' ? (
+                        <>
+                          {parseMessageText(message.text)}
+                          {message.verseReference && (
+                            <div className="mt-2">
+                              <button
+                                onClick={() => message.verseReference && handleShowExplanation(message.id, message.verseReference)}
+                                disabled={explanationLoading === message.id || !message.verseReference}
+                                className="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded transition-colors flex items-center"
+                              >
+                                {explanationLoading === message.id ? (
+                                  'Loading...'
+                                ) : message.showExplanation ? (
+                                  'Hide Explanation'
+                                ) : (
+                                  'Show Explanation'
+                                )}
+                              </button>
+                              {message.showExplanation && explanations[message.id] && (
+                                <div className="mt-2 p-2 bg-gray-50 text-sm rounded border border-gray-200">
+                                  {explanations[message.id]}
+                                </div>
+                              )}
                             </div>
                           )}
-                        </div>
+                        </>
+                      ) : (
+                        message.text
                       )}
-                    </>
-                  ) : (
-                    message.text
-                  )}
+                    </div>
+                    <p className="text-xs opacity-70 mt-1">
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString([], {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </p>
               </div>
             </div>
           ))}
           {isLoading && (
             <div className="flex justify-start">
               <div className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg rounded-bl-none">
-                <div className="flex space-x-2">
-                  <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce" />
-                  <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-100" />
-                  <div className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-200" />
+                <div className="flex items-center space-x-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                  <span className="text-sm">Seeking guidance...</span>
                 </div>
               </div>
             </div>
@@ -251,7 +333,7 @@ export default function ChatInterface() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask me anything about the Bible..."
+            placeholder="Ask for spiritual guidance, prayer help, or biblical wisdom..."
             className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={isLoading}
             onKeyDown={(e) => {
@@ -269,6 +351,9 @@ export default function ChatInterface() {
             <Send className="w-5 h-5" />
           </button>
         </div>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          For personal spiritual matters, please consult with your pastor or spiritual mentor.
+        </p>
       </form>
     </div>
   );
