@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verseExplanations, formatVerseExplanation, type VerseExplanation } from '../../lib/biblicalKnowledge';
 import { bibleService, type BiblePassage } from '../../lib/bibleService';
+import { DatabaseService } from '../../lib/database';
 
 // Define a type for the response structure
 type ChatResponse = {
@@ -250,7 +251,7 @@ export default async function handler(
       } catch (e) {
         return res.status(400).json({ 
           error: 'Invalid JSON in request body',
-          details: e.message
+          details: e instanceof Error ? e.message : 'Unknown error'
         });
       }
     }
@@ -271,13 +272,45 @@ export default async function handler(
       });
     }
 
-    const { message } = body;
+    const { message, userId } = body;
     
     if (typeof message !== 'string' || message.trim() === '') {
       return res.status(400).json({ 
         error: 'Message must be a non-empty string',
         received: message
       });
+    }
+
+    // Track usage analytics
+    try {
+      await DatabaseService.trackUsage({
+        userId: userId || undefined,
+        action: 'chat_message',
+        details: {
+          messageLength: message.length,
+          hasUserId: !!userId,
+        },
+        userAgent: req.headers['user-agent'],
+        ipAddress: req.headers['x-forwarded-for'] as string || req.socket.remoteAddress,
+      });
+    } catch (error) {
+      console.error('Error tracking usage:', error);
+      // Don't fail the request if analytics tracking fails
+    }
+
+    // Store user message in database if userId is provided
+    if (userId) {
+      try {
+        await DatabaseService.createChatMessage({
+          userId,
+          text: message,
+          sender: 'user',
+          messageType: 'GUIDANCE',
+        });
+      } catch (error) {
+        console.error('Error storing user message:', error);
+        // Don't fail the request if database storage fails
+      }
     }
 
     // Get the best response for the message
@@ -314,6 +347,23 @@ export default async function handler(
           }
           return verse;
         }).join(', ');
+    }
+
+    // Store bot response in database if userId is provided
+    if (userId) {
+      try {
+        await DatabaseService.createChatMessage({
+          userId,
+          text: formattedResponse,
+          sender: 'bot',
+          messageType: 'GUIDANCE',
+          verseReference: verses.length > 0 ? verses[0] : undefined,
+          tags: verses,
+        });
+      } catch (error) {
+        console.error('Error storing bot message:', error);
+        // Don't fail the request if database storage fails
+      }
     }
 
     return res.status(200).json({ response: formattedResponse });

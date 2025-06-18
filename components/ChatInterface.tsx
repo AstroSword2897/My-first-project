@@ -165,7 +165,7 @@ export default function ChatInterface() {
       console.error('Error:', error);
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'I\'m having trouble connecting right now. Please try again, and remember that for personal spiritual guidance, it\'s always best to speak with your pastor or spiritual mentor.',
+        text: 'I\'m having trouble connecting right now. Please try again! While this tool can help with biblical insights, remember that nothing replaces reading God\'s Word directly.',
         sender: 'bot',
         timestamp: new Date(),
         messageType: 'guidance'
@@ -191,7 +191,7 @@ export default function ChatInterface() {
       case 'study':
         return <BookOpen className="w-4 h-4 text-blue-500" />;
       default:
-        return <AlertTriangle className="w-4 h-4 text-amber-500" />;
+        return <AlertTriangle className="w-4 h-4 text-gray-500" />;
     }
   };
 
@@ -204,7 +204,7 @@ export default function ChatInterface() {
       case 'study':
         return 'bg-blue-50 border-blue-200';
       default:
-        return 'bg-amber-50 border-amber-200';
+        return 'bg-white border-gray-200';
     }
   };
 
@@ -220,12 +220,12 @@ export default function ChatInterface() {
   return (
     <div className="flex flex-col h-[80vh] max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Spiritual Guidance Disclaimer */}
-      <div className="bg-amber-50 border-b border-amber-200 p-3">
+      <div className="bg-gray-50 border-b border-gray-200 p-3">
         <div className="flex items-start space-x-2">
-          <AlertTriangle className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
-          <div className="text-sm text-amber-800">
-            <p className="font-medium">Spiritual Guidance Tool</p>
-            <p>This AI provides biblical wisdom and spiritual guidance for educational purposes. For personal spiritual matters, counseling, or pastoral care, please consult with your pastor, spiritual mentor, or qualified religious leader.</p>
+          <AlertTriangle className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
+          <div className="text-sm text-gray-800">
+            <p className="font-medium">Biblical Wisdom Companion</p>
+            <p>This AI provides biblical insights and spiritual encouragement to support your faith journey. While it can help with understanding Scripture, nothing replaces reading God's Word directly. For personal counseling or pastoral care, consider speaking with your pastor or spiritual mentor.</p>
           </div>
         </div>
       </div>
@@ -264,11 +264,7 @@ export default function ChatInterface() {
                 }`}
               >
                 <div className="flex items-start space-x-2">
-                  {message.sender === 'bot' && (
-                    <div className="flex-shrink-0 mt-0.5">
-                      {getMessageIcon(message.messageType)}
-                    </div>
-                  )}
+                  {/* Removed icon display for bot messages to eliminate caution signs */}
                   <div className="flex-1">
                     <div className="whitespace-pre-wrap">
                       {message.sender === 'bot' ? (
@@ -352,7 +348,7 @@ export default function ChatInterface() {
           </button>
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
-          For personal spiritual matters, please consult with your pastor or spiritual mentor.
+          While this tool offers biblical insights, reading God's Word directly and seeking human guidance remain essential for spiritual growth.
         </p>
       </form>
     </div>

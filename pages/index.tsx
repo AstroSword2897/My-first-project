@@ -5,7 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { BookOpenIcon, UserGroupIcon, ChatBubbleLeftRightIcon, MagnifyingGlassIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { FaCross, FaDove } from 'react-icons/fa';
-import { BookOpen, Users, MessageCircle, Search, Heart, Shield, Star, ArrowRight } from 'lucide-react';
+import { BookOpen, Users, MessageCircle, Search, Heart, Shield, Star, ArrowRight, Sparkles, Moon, Sun, CloudRain } from 'lucide-react';
 import ChatInterface from '../components/ChatInterface';
 import ThematicExplorer from '../src/components/Bible/ThematicExplorer';
 import SpiritualJournal from '../src/components/Bible/SpiritualJournal';
@@ -14,8 +14,8 @@ import SpiritualJournal from '../src/components/Bible/SpiritualJournal';
 const ChatInterfaceDynamic = dynamic(() => import('../components/ChatInterface'), {
   ssr: false,
   loading: () => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 h-96 flex items-center justify-center">
-      <div className="animate-pulse text-gray-500 dark:text-gray-400">Loading chat interface...</div>
+    <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 h-96 flex items-center justify-center">
+      <div className="animate-pulse text-white/70">Loading chat interface...</div>
     </div>
   ),
 });
@@ -64,21 +64,24 @@ const Home: NextPage = () => {
       title: 'Bible Reader',
       description: 'Read and study Scripture with multiple translations and easy navigation.',
       href: '/bible',
-      color: 'bg-blue-500'
+      color: 'from-blue-500 to-indigo-600',
+      gradient: 'from-blue-500/20 to-indigo-600/20'
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Biblical Characters',
       description: 'Explore the lives and lessons of key biblical figures.',
       href: '/characters',
-      color: 'bg-green-500'
+      color: 'from-green-500 to-emerald-600',
+      gradient: 'from-green-500/20 to-emerald-600/20'
     },
     {
       icon: <MessageCircle className="w-8 h-8" />,
       title: 'Spiritual Guidance',
       description: 'Get AI-powered spiritual guidance and biblical wisdom.',
       href: '#',
-      color: 'bg-purple-500',
+      color: 'from-purple-500 to-pink-600',
+      gradient: 'from-purple-500/20 to-pink-600/20',
       onClick: () => setActiveTab('chat')
     },
     {
@@ -86,14 +89,16 @@ const Home: NextPage = () => {
       title: 'Advanced Search',
       description: 'Find verses and passages with fuzzy search and filters.',
       href: '/search',
-      color: 'bg-orange-500'
+      color: 'from-orange-500 to-red-600',
+      gradient: 'from-orange-500/20 to-red-600/20'
     },
     {
       icon: <Heart className="w-8 h-8" />,
       title: 'Thematic Exploration',
       description: 'Explore biblical wisdom organized by spiritual themes.',
       href: '#',
-      color: 'bg-red-500',
+      color: 'from-red-500 to-pink-600',
+      gradient: 'from-red-500/20 to-pink-600/20',
       onClick: () => setActiveTab('themes')
     },
     {
@@ -101,7 +106,8 @@ const Home: NextPage = () => {
       title: 'Spiritual Journal',
       description: 'Record your spiritual insights, prayers, and reflections.',
       href: '#',
-      color: 'bg-indigo-500',
+      color: 'from-indigo-500 to-purple-600',
+      gradient: 'from-indigo-500/20 to-purple-600/20',
       onClick: () => setActiveTab('journal')
     }
   ];
@@ -113,7 +119,14 @@ const Home: NextPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+      </div>
+
       <Head>
         <title>Biblical Chatbot & Study Tool - Spiritual Guidance Platform</title>
         <meta name="description" content="A comprehensive spiritual guidance platform with AI-powered biblical wisdom, thematic exploration, and personal reflection tools." />
@@ -133,24 +146,26 @@ const Home: NextPage = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b">
+      {/* Enhanced Navigation */}
+      <nav className="relative z-10 bg-white/10 backdrop-blur-md border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
-                <Star className="w-8 h-8 text-blue-600" />
-                <span className="ml-2 text-xl font-bold text-gray-900">Biblical Guidance</span>
+                <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
+                  <Star className="w-6 h-6 text-white" />
+                </div>
+                <span className="ml-3 text-xl font-bold text-white">Biblical Guidance</span>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/bible" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/bible" className="text-white/80 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10">
                 Bible
               </Link>
-              <Link href="/characters" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/characters" className="text-white/80 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10">
                 Characters
               </Link>
-              <Link href="/search" className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+              <Link href="/search" className="text-white/80 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10">
                 Search
               </Link>
             </div>
@@ -158,22 +173,29 @@ const Home: NextPage = () => {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Your Spiritual Guidance Companion
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Enhanced Hero Section */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
+            <Sparkles className="w-5 h-5 text-yellow-300" />
+            <span className="text-white/90 text-sm font-medium">AI-Powered Spiritual Guidance</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            Your Spiritual
+            <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Guidance Companion
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
             Explore God's Word, seek spiritual guidance, and grow in your faith with AI-powered biblical wisdom, 
             thematic exploration, and personal reflection tools.
           </p>
         </div>
 
-        {/* Main Content Tabs */}
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="flex space-x-8">
+        {/* Enhanced Main Content Tabs */}
+        <div className="mb-12">
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-2 border border-white/20">
+            <nav className="flex space-x-2">
               {[
                 { id: 'chat', label: 'Spiritual Guidance Chat', icon: <MessageCircle className="w-5 h-5" /> },
                 { id: 'themes', label: 'Thematic Exploration', icon: <Heart className="w-5 h-5" /> },
@@ -182,10 +204,10 @@ const Home: NextPage = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center space-x-2 py-2 px-1 border-b-2 font-medium text-sm ${
+                  className={`flex items-center space-x-3 py-3 px-6 rounded-xl font-medium text-sm transition-all duration-300 ${
                     activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   {tab.icon}
@@ -196,59 +218,71 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        {/* Tab Content */}
-        <div className="mb-12">
+        {/* Enhanced Tab Content */}
+        <div className="mb-16">
           {activeTab === 'chat' && (
             <div className="max-w-4xl mx-auto">
-              <ChatInterface />
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+                <ChatInterface />
+              </div>
             </div>
           )}
           
           {activeTab === 'themes' && (
             <div className="max-w-6xl mx-auto">
-              <ThematicExplorer />
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+                <ThematicExplorer />
+              </div>
             </div>
           )}
           
           {activeTab === 'journal' && (
             <div className="max-w-4xl mx-auto">
-              <SpiritualJournal />
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
+                <SpiritualJournal />
+              </div>
             </div>
           )}
         </div>
 
-        {/* Feature Cards */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Explore All Features
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Enhanced Feature Cards */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Explore All Features
+            </h2>
+            <p className="text-white/70 text-lg">
+              Discover the full range of spiritual tools and resources
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden"
+                className="group relative bg-white/10 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
               >
-                <div className="p-6">
-                  <div className={`inline-flex p-3 rounded-lg text-white mb-4 ${feature.color}`}>
+                <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${feature.gradient}"></div>
+                <div className="relative p-8">
+                  <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.color} text-white mb-6 shadow-lg group-hover:shadow-xl transition-shadow duration-300`}>
                     {feature.icon}
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                  <p className="text-gray-600 mb-4">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                  <p className="text-white/70 mb-6 leading-relaxed">{feature.description}</p>
                   {feature.href === '#' ? (
                     <button
                       onClick={() => handleFeatureClick(feature)}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                      className="inline-flex items-center text-blue-300 hover:text-blue-200 font-semibold group-hover:translate-x-1 transition-transform duration-300"
                     >
                       Explore
-                      <ArrowRight className="w-4 h-4 ml-1" />
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </button>
                   ) : (
                     <Link
                       href={feature.href}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                      className="inline-flex items-center text-blue-300 hover:text-blue-200 font-semibold group-hover:translate-x-1 transition-transform duration-300"
                     >
                       Explore
-                      <ArrowRight className="w-4 h-4 ml-1" />
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
                   )}
                 </div>
@@ -257,42 +291,77 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-4">Start Your Spiritual Journey Today</h2>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-            Whether you're seeking guidance, exploring biblical themes, or recording your spiritual insights, 
-            we're here to support your faith journey.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => setActiveTab('chat')}
-              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-            >
-              Get Spiritual Guidance
-            </button>
-            <button
-              onClick={() => setActiveTab('themes')}
-              className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors"
-            >
-              Explore Themes
-            </button>
+        {/* Enhanced Call to Action */}
+        <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl p-12 text-center text-white overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/50 via-purple-600/50 to-pink-600/50"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent"></div>
+          <div className="relative z-10">
+            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-white/30">
+              <Sparkles className="w-5 h-5 text-yellow-300" />
+              <span className="text-white font-medium">Start Your Journey</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Begin Your Spiritual Journey Today</h2>
+            <p className="text-white/90 mb-8 max-w-2xl mx-auto text-lg leading-relaxed">
+              Whether you're seeking guidance, exploring biblical themes, or recording your spiritual insights, 
+              we're here to support your faith journey with modern tools and timeless wisdom.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => setActiveTab('chat')}
+                className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Get Spiritual Guidance
+              </button>
+              <button
+                onClick={() => setActiveTab('themes')}
+                className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
+              >
+                Explore Themes
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="mt-16 pt-8 border-t border-gray-200">
-          <div className="text-center text-gray-600">
-            <p className="mb-2">
-              <strong>Important:</strong> This platform provides spiritual guidance and biblical wisdom for educational purposes.
-            </p>
-            <p className="text-sm">
-              For personal spiritual matters, counseling, or pastoral care, please consult with your pastor, 
-              spiritual mentor, or qualified religious leader.
-            </p>
+        {/* Enhanced Footer */}
+        <footer className="mt-20 pt-12 border-t border-white/20">
+          <div className="text-center">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <p className="text-white/90 mb-4 text-lg">
+                <strong>Important:</strong> This platform provides spiritual guidance and biblical wisdom for educational purposes.
+              </p>
+              <p className="text-white/70">
+                While this tool offers biblical insights, reading God's Word directly and seeking human guidance remain essential for spiritual growth.
+              </p>
+            </div>
           </div>
         </footer>
       </main>
+
+      <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style>
     </div>
   );
 };

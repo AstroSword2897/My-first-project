@@ -1,225 +1,255 @@
-# Biblical Chatbot & Study Tool 3.0
+# Biblical Chatbot & Spiritual Journal
 
-A comprehensive web application for exploring the Bible, studying biblical characters, and getting AI-powered spiritual guidance with enhanced search capabilities, offline access, and user authentication.
+A comprehensive Next.js application that combines AI-powered biblical guidance with spiritual journaling, emotional well-being tracking, and prayer request management. All data is stored in PostgreSQL for persistence and analytics.
 
-## ✨ Features
+## 🌟 Features
 
-- 📖 **Bible Reader**: Read and study the Bible with multiple translations and easy navigation
-- 👥 **Biblical Characters**: Explore detailed biographies of key biblical figures
-- 💬 **AI Chat**: Get answers to your biblical questions with our AI assistant (with appropriate disclaimers)
-- 🔍 **Advanced Search**: Fuzzy search, autocomplete, and filters by book/category
-- 📱 **PWA Support**: Install as a mobile app with offline capabilities
-- 🔐 **User Authentication**: Secure login with Google, GitHub, or email
-- 🎨 **Responsive Design**: Works beautifully on desktop, tablet, and mobile devices
+### 🤖 AI Biblical Chatbot
+- **Intelligent Responses**: AI-powered responses to spiritual questions and biblical inquiries
+- **Verse Explanations**: Detailed explanations of Bible verses with context and cross-references
+- **Topic-Based Guidance**: Biblical advice on life situations, relationships, and spiritual growth
+- **Encouraging Tone**: Supportive and uplifting responses focused on spiritual encouragement
 
-## 🚀 Recent Improvements
+### 📖 Bible Study Tools
+- **Verse Search**: Search and explore Bible verses with detailed explanations
+- **Character Studies**: Learn about biblical characters and their life lessons
+- **Thematic Exploration**: Study biblical themes across different books and passages
+- **Cross-References**: Discover related verses and passages
 
-### AI Chat Limitations & Safety
-- **Study Aid Disclaimers**: Clear messaging that AI is for educational purposes, not spiritual authority
-- **Appropriate Boundaries**: Encourages consultation with pastors/mentors for personal guidance
-- **Theological Accuracy**: Based on established biblical scholarship and "Experiencing God" principles
+### 📝 Spiritual Journal
+- **Daily Reflections**: Write personal reflections on Bible verses and spiritual experiences
+- **Markdown Editor**: Rich text editing with markdown support for detailed journaling
+- **Verse Integration**: Link journal entries to specific Bible verses
+- **Character Connections**: Connect reflections to biblical characters and their stories
 
-### Enhanced Search Experience
-- **Fuzzy Search**: Handles typos and partial matches intelligently
-- **Autocomplete**: Smart suggestions for Bible books, categories, and theological terms
-- **Advanced Filters**: Filter by book, category (Law, Historical, Wisdom, Prophetic, Gospel, Epistle, Apocalyptic)
-- **Quick Results**: Instant search results with "View All" option
+### 😊 Emotional Well-Being Tracking
+- **Mood Rating**: 1-10 scale emotional state tracking
+- **Feelings Selection**: Choose from a comprehensive list of emotions
+- **Detailed Descriptions**: Write detailed descriptions of emotional experiences
+- **Contributing Factors**: Identify triggers and contributing factors
+- **AI-Generated Prayers**: Personalized prayers based on emotional state
+- **Progress Tracking**: Monitor emotional well-being over time
 
-### Offline Access (PWA)
-- **Progressive Web App**: Install on mobile devices like a native app
-- **Offline Capabilities**: Cache essential content for offline reading
-- **App Shortcuts**: Quick access to Bible Reader, Search, and Characters
-- **Mobile Optimized**: Touch-friendly interface and responsive design
+### 🙏 Prayer Request Management
+- **Private & Public Requests**: Create private or shareable prayer requests
+- **Answer Tracking**: Mark prayers as answered with details
+- **Community Support**: Share prayer requests with the community
+- **Prayer History**: Track prayer requests and their outcomes
 
-### User Authentication & Data
-- **Multiple Login Options**: Google, GitHub, or email authentication
-- **Secure Sessions**: JWT-based authentication with NextAuth.js
-- **User Preferences**: Save Bible version preferences, theme settings, and study notes
-- **Study History**: Track your reading progress and search history
+### 💾 Comprehensive Data Storage
+All application data is stored in PostgreSQL with the following features:
 
-## 🛠 Tech Stack
+#### User Management
+- User profiles with email, name, and profile images
+- Authentication and session management
+- User preferences and settings
 
-- **Frontend**: Next.js 15, React 18, TypeScript, Tailwind CSS
-- **AI/ML**: @xenova/transformers, faiss-node for embeddings
-- **Authentication**: NextAuth.js with multiple providers
-- **Database**: Prisma ORM with PostgreSQL
-- **UI Components**: Lucide React, Heroicons
-- **API**: Bible API integration (api.bible)
-- **PWA**: Service workers, manifest, offline caching
-- **Search**: Fuzzy search algorithm with autocomplete
-- **Logging**: Winston
-- **Build Tools**: Webpack, Babel
+#### Chat Messages
+- Complete chat history with user and bot messages
+- Message categorization (guidance, prayer, reflection, study)
+- Verse references and tags
+- Timestamp tracking and favorites
 
-## 📦 Installation
+#### Journal Entries
+- Rich text journal entries with markdown support
+- Verse and character associations
+- Tags and categorization
+- Emotional state integration
+- Prayer and reflection sections
+
+#### Emotional States
+- Detailed emotional tracking with ratings
+- Feelings and triggers documentation
+- AI-generated prayers based on emotional state
+- Historical emotional well-being data
+
+#### Bible Verses
+- Complete Bible verse database
+- Multiple translations support
+- Cross-references and related verses
+- User notes and highlights
+
+#### Prayer Requests
+- Private and public prayer requests
+- Answer tracking and updates
+- Community sharing capabilities
+- Prayer history and outcomes
+
+#### Search History
+- User search queries and results
+- Search analytics and patterns
+- Personalized search suggestions
+
+#### Analytics & Usage Tracking
+- Comprehensive usage analytics
+- Feature usage tracking
+- User behavior insights
+- Performance monitoring
+
+## 🗄️ Database Schema
+
+The application uses a comprehensive PostgreSQL schema with the following main models:
+
+### Core Models
+- **User**: User profiles and authentication
+- **BibleVerse**: Bible verse content and metadata
+- **ChatMessage**: AI chat interactions and responses
+- **JournalEntry**: Spiritual journal entries and reflections
+- **EmotionalState**: Emotional well-being tracking data
+- **PrayerRequest**: Prayer requests and community sharing
+- **UserNote**: Personal notes and highlights on verses
+- **FavoriteVerse**: User's favorite Bible verses
+- **SearchHistory**: Search queries and results
+- **ThematicStudy**: Thematic Bible study sessions
+- **BiblicalCharacter**: Biblical character profiles and lessons
+- **UsageAnalytics**: Application usage and analytics data
+
+### Relationships
+- Users have many chat messages, journal entries, and prayer requests
+- Journal entries can have associated emotional states
+- Bible verses can have user notes and favorites
+- All data is properly indexed for optimal performance
+
+## 🔌 API Endpoints
+
+### Chat API (`/api/chat`)
+- **POST**: Send messages to the AI chatbot
+- **Features**: Message storage, usage analytics, verse integration
+
+### Journal API (`/api/journal`)
+- **POST**: Create new journal entries with emotional tracking
+- **GET**: Retrieve user's journal entries
+- **Features**: Emotional state integration, verse associations
+
+### Prayer Requests API (`/api/prayer-requests`)
+- **POST**: Create new prayer requests
+- **GET**: Retrieve user's prayer requests
+- **PUT**: Update prayer request status (answered, etc.)
+- **Features**: Private/public sharing, answer tracking
+
+### Bible API (`/api/explain-verse`)
+- **POST**: Get detailed verse explanations
+- **Features**: Cross-references, context, multiple translations
+
+## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js 18+ 
+- PostgreSQL database
+- Docker (optional, for local database)
 
-- Node.js (v18 or later)
-- npm or yarn
-- **Bible API Key**: Obtain a free API key from [api.bible](https://api.bible/) for verse lookup.
+### Installation
 
-### Quick Start
-
-1. **Clone the repository:**
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/biblical-chatbot.git
+   git clone <repository-url>
    cd biblical-chatbot
    ```
 
-2. **Install dependencies:**
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Set up environment variables:**
-   Create a `.env.local` file in the root directory:
+3. **Set up environment variables**
+   Create a `.env.local` file:
    ```env
-   # Required
-   BIBLE_API_KEY=your_bible_api_key_here
-   
-   # Authentication (Optional - for user accounts)
-   NEXTAUTH_URL=http://localhost:9899
-   NEXTAUTH_SECRET=your_nextauth_secret_here
-   
-   # Google OAuth (Optional)
-   GOOGLE_ID=your_google_client_id
-   GOOGLE_SECRET=your_google_client_secret
-   
-   # GitHub OAuth (Optional)
-   GITHUB_ID=your_github_client_id
-   GITHUB_SECRET=your_github_client_secret
-   
-   # Email Provider (Optional)
-   EMAIL_SERVER_HOST=smtp.gmail.com
-   EMAIL_SERVER_PORT=587
-   EMAIL_SERVER_USER=your_email@gmail.com
-   EMAIL_SERVER_PASSWORD=your_app_password
-   EMAIL_FROM=noreply@yourdomain.com
-   
-   # Database (Optional - for user data)
    DATABASE_URL="postgresql://username:password@localhost:5432/biblical_chatbot"
+   NEXTAUTH_URL="http://localhost:9899"
+   NEXTAUTH_SECRET="your-secret-key"
+   BIBLE_API_KEY="your-bible-api-key"
    ```
 
-4. **Start the development server:**
+4. **Set up the database**
+   ```bash
+   # Start PostgreSQL (if using Docker)
+   docker-compose up -d
+   
+   # Generate Prisma client
+   npx prisma generate
+   
+   # Run database migrations
+   npx prisma migrate dev
+   ```
+
+5. **Start the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser:**
+6. **Open your browser**
    Navigate to [http://localhost:9899](http://localhost:9899)
 
-## 🔧 Configuration
+## 🛠️ Development
 
-### Bible API Setup
-1. Visit [api.bible](https://api.bible/)
-2. Create a free account
-3. Generate an API key
-4. Add the key to your `.env.local` file
+### Database Management
+```bash
+# View database in Prisma Studio
+npx prisma studio
 
-### Authentication Setup (Optional)
-1. **Google OAuth**: Create a project in Google Cloud Console
-2. **GitHub OAuth**: Create an OAuth app in GitHub settings
-3. **Email Provider**: Configure SMTP settings for email authentication
+# Reset database
+npx prisma migrate reset
 
-### Database Setup (Optional)
-1. Install PostgreSQL
-2. Create a database
-3. Run Prisma migrations: `npx prisma migrate dev`
-
-## 📱 PWA Installation
-
-### Desktop
-- Chrome/Edge: Click the install icon in the address bar
-- Firefox: Click the install icon in the address bar
-
-### Mobile
-- **iOS Safari**: Tap the share button → "Add to Home Screen"
-- **Android Chrome**: Tap the menu → "Add to Home Screen"
-
-## 🔍 Search Features
-
-### Fuzzy Search
-- Handles typos and partial matches
-- Example: "jhon 3:16" finds "John 3:16"
-- "fath" suggests "faith", "father", etc.
-
-### Autocomplete
-- Bible book names
-- Common theological terms
-- Category suggestions
-
-### Filters
-- **By Book**: Select specific Bible books
-- **By Category**: Law, Historical, Wisdom, Prophetic, Gospel, Epistle, Apocalyptic
-- **Combined**: Use multiple filters together
-
-## 🏗 Project Structure
-
-```
-biblical-chatbot/
-├── components/           # Reusable UI components
-│   ├── ChatInterface.tsx # AI chat with disclaimers
-│   └── ...
-├── pages/               # Application pages and API routes
-│   ├── api/            # Backend API endpoints
-│   │   ├── auth/       # Authentication routes
-│   │   └── chat.ts     # AI chat endpoint
-│   ├── bible/          # Bible reader pages
-│   ├── characters/     # Character study pages
-│   └── search.tsx      # Search functionality
-├── src/
-│   ├── components/     # Feature components
-│   │   ├── Bible/      # Bible-related components
-│   │   └── common/     # Shared components
-│   ├── lib/           # Utility functions and services
-│   └── types/         # TypeScript type definitions
-├── public/
-│   ├── manifest.json  # PWA manifest
-│   └── icons/         # App icons
-├── prisma/            # Database schema and migrations
-├── styles/            # Global styles
-└── next.config.js     # Next.js configuration
+# Generate new migration
+npx prisma migrate dev --name migration-name
 ```
 
-## 📜 Available Scripts
+### Code Structure
+```
+├── components/          # React components
+├── lib/                # Database and service files
+├── pages/              # Next.js pages and API routes
+├── prisma/             # Database schema and migrations
+├── public/             # Static assets
+├── styles/             # CSS and styling
+└── types/              # TypeScript type definitions
+```
 
-- `npm run dev` - Start development server (port 9899)
-- `npm run build` - Build for production
-- `npm start` - Start production server
-- `npm run lint` - Run ESLint
-- `npx prisma generate` - Generate Prisma client
-- `npx prisma migrate dev` - Run database migrations
+### Key Components
+- **ChatInterface**: AI chatbot interface with message history
+- **SpiritualJournal**: Journal entry creation with emotional tracking
+- **BibleReader**: Bible verse reading and study interface
+- **PrayerRequests**: Prayer request management interface
+- **DatabaseService**: Comprehensive database operations
 
-## 🔒 Security & Privacy
+## 📊 Data Analytics
 
-### AI Chat Safety
-- **Educational Purpose**: AI responses are for study aid only
-- **No Spiritual Authority**: Always consult qualified spiritual leaders
-- **Biblical Foundation**: Responses based on established scholarship
-- **Clear Disclaimers**: Prominent warnings about AI limitations
+The application includes comprehensive analytics tracking:
 
-### Data Protection
-- **Secure Authentication**: JWT tokens with proper expiration
-- **Privacy First**: Minimal data collection
-- **Local Storage**: User preferences stored locally when possible
-- **HTTPS Only**: All communications encrypted
+### Usage Analytics
+- Chat message frequency and patterns
+- Journal entry creation and emotional trends
+- Prayer request patterns and answer rates
+- Feature usage and user engagement
+
+### Emotional Well-Being Insights
+- Emotional state trends over time
+- Trigger identification and patterns
+- Prayer effectiveness correlation
+- Well-being improvement tracking
+
+### Spiritual Growth Metrics
+- Bible study patterns and preferences
+- Journal reflection depth and frequency
+- Prayer life development
+- Character study engagement
+
+## 🔒 Privacy & Security
+
+- **User Data**: All user data is stored securely in PostgreSQL
+- **Authentication**: Secure user authentication and session management
+- **Privacy Controls**: Users control privacy of prayer requests and journal entries
+- **Data Encryption**: Sensitive data is encrypted in transit and at rest
 
 ## 🤝 Contributing
 
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting a pull request.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ### Development Guidelines
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-### Code Style
-- Use TypeScript for all new code
-- Follow ESLint configuration
-- Use Prettier for formatting
-- Write meaningful commit messages
+- Follow TypeScript best practices
+- Write comprehensive tests
+- Update documentation for new features
+- Follow the existing code style
 
 ## 📄 License
 
@@ -227,39 +257,17 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Biblical Scholarship**: Based on established theological frameworks
-- **Next.js**: The React Framework for Production
-- **Tailwind CSS**: A utility-first CSS framework
-- **NextAuth.js**: Complete authentication solution
-- **@xenova/transformers**: JavaScript implementation of Transformers
-- **Lucide React**: Beautiful hand-crafted SVG icons
-- **Bible API**: Scripture data and translations
+- Bible API providers for verse data
+- The open-source community for tools and libraries
+- Contributors and users who provide feedback and suggestions
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/biblical-chatbot/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/biblical-chatbot/discussions)
-- **Email**: support@yourdomain.com
-
-## 🔄 Version History
-
-### v3.0.0 (Current)
-- ✨ Enhanced search with fuzzy matching and filters
-- 🔐 User authentication with NextAuth.js
-- 📱 PWA support for offline access
-- ⚠️ AI chat safety improvements and disclaimers
-- 🎨 Improved UI/UX with better responsive design
-- 🚀 Performance optimizations
-
-### v2.0.0
-- 📖 Bible reader with multiple translations
-- 👥 Biblical character studies
-- 💬 AI chat functionality
-- 🔍 Basic search capabilities
-
-### v1.0.0
-- 🎯 Initial release with core Bible study features
+For support, questions, or feature requests:
+- Open an issue on GitHub
+- Check the documentation
+- Review the FAQ section
 
 ---
 
-**Note**: This application is designed as a study aid and should not replace pastoral care, spiritual counseling, or theological training. Always consult with qualified spiritual leaders for personal guidance.
+**May this application help you grow in your faith and deepen your relationship with God! 🙏**

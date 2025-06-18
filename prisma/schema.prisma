@@ -14,6 +14,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  chatMessages     ChatMessage[]
+  journalEntries   JournalEntry[]
+  searchHistory    SearchHistory[]
+  userNotes        UserNote[]
+  favoriteVerses   FavoriteVerse[]
+  prayerRequests   PrayerRequest[]
+  emotionalStates  EmotionalState[]
+  thematicStudies  ThematicStudy[]
+
+  @@map("users")
+}
+
+// Bible verses and content
 model BibleVerse {
   id        String   @id @default(cuid())
   book      String
@@ -24,35 +47,202 @@ model BibleVerse {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userNotes UserNote[]
+  // Relations
+  userNotes      UserNote[]
+  favoriteVerses FavoriteVerse[]
+  chatMessages   ChatMessage[]
 
   @@unique([book, chapter, verse, version])
   @@index([book, chapter, verse])
+  @@map("bible_verses")
 }
 
+// Chat messages and AI interactions
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text      String   @db.Text
+  sender    String   // 'user' or 'bot'
+  messageType ChatMessageType @default(GUIDANCE)
+  verseReference String?
+  verseId   String?
+  verse     BibleVerse? @relation(fields: [verseId], references: [id])
+  timestamp DateTime @default(now())
+  isFavorite Boolean @default(false)
+  tags      String[] // Array of tags
+
+  @@index([userId])
+  @@index([timestamp])
+  @@map("chat_messages")
+}
+
+// Spiritual journal entries
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  verse     String?
+  character String?
+  reflection String  @db.Text
+  prayer    String?  @db.Text
+  tags      String[] // Array of tags
+  isFavorite Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  emotionalState EmotionalState?
+
+  @@index([userId])
+  @@index([date])
+  @@map("journal_entries")
+}
+
+// Emotional well-being tracking
+model EmotionalState {
+  id        String   @id @default(cuid())
+  journalEntryId String @unique
+  journalEntry JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int      // 1-10 scale
+  feelings  String[] // Array of feelings
+  details   String   @db.Text
+  triggers  String[] // Array of contributing factors
+  aiGeneratedPrayer String? @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([rating])
+  @@map("emotional_states")
+}
+
+// User notes on Bible verses
 model UserNote {
   id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   verseId   String
-  verse     BibleVerse @relation(fields: [verseId], references: [id])
+  verse     BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
   content   String   @db.Text
   type      NoteType @default(HIGHLIGHT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([verseId])
+  @@index([userId])
+  @@map("user_notes")
 }
 
+// Favorite verses
+model FavoriteVerse {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verseId   String
+  verse     BibleVerse @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, verseId])
+  @@index([userId])
+  @@map("favorite_verses")
+}
+
+// Search history
 model SearchHistory {
   id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   query     String
   results   Int
   createdAt DateTime @default(now())
 
   @@index([query])
+  @@index([userId])
+  @@map("search_history")
 }
 
+// Prayer requests
+model PrayerRequest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  content   String   @db.Text
+  isAnswered Boolean @default(false)
+  isPrivate Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([isAnswered])
+  @@map("prayer_requests")
+}
+
+// Thematic studies and explorations
+model ThematicStudy {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  theme     String
+  title     String
+  content   String   @db.Text
+  verses    String[] // Array of verse references
+  insights  String   @db.Text
+  isFavorite Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([theme])
+  @@map("thematic_studies")
+}
+
+// Biblical characters
+model BiblicalCharacter {
+  id        String   @id @default(cuid())
+  name      String
+  description String  @db.Text
+  stories   String[] // Array of story references
+  lessons   String   @db.Text
+  verses    String[] // Array of verse references
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name])
+  @@index([name])
+  @@map("biblical_characters")
+}
+
+// Enums
 enum NoteType {
   HIGHLIGHT
   NOTE
   BOOKMARK
+}
+
+enum ChatMessageType {
+  GUIDANCE
+  PRAYER
+  REFLECTION
+  STUDY
+}
+
+// Analytics and usage tracking
+model UsageAnalytics {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String   // e.g., 'chat_message', 'journal_entry', 'search'
+  details   Json?    // Additional data
+  timestamp DateTime @default(now())
+  userAgent String?
+  ipAddress String?
+
+  @@index([userId])
+  @@index([action])
+  @@index([timestamp])
+  @@map("usage_analytics")
 }
