@@ -19,7 +19,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m here to help you explore the Bible and provide spiritual guidance. I can help with:\n\n• Explaining Bible verses and passages\n• Finding relevant scriptures on topics\n• Providing spiritual guidance and prayer help\n• Suggesting cross-references\n\n**Important:** I\'m a tool designed to help you understand Scripture and seek spiritual guidance. For personal spiritual matters, please consult with your pastor, priest, or spiritual mentor. Always pray and seek the Holy Spirit\'s guidance as you study God\'s Word.',
+      text: 'Hello! I\'m here to help you explore the Bible and provide spiritual guidance. I can help with:\n\n• Explaining Bible verses and passages\n• Finding relevant scriptures on topics\n• Providing spiritual guidance and prayer help\n• Suggesting cross-references\n\n**Important:** I\'m a tool designed to help you understand Scripture and seek spiritual guidance. Always pray and seek the Holy Spirit\'s guidance as you study God\'s Word.',
       sender: 'bot',
       timestamp: new Date(),
       messageType: 'guidance'
