@@ -225,7 +225,7 @@ export default function ChatInterface() {
           <AlertTriangle className="h-5 w-5 text-gray-600 mt-0.5 flex-shrink-0" />
           <div className="text-sm text-gray-800">
             <p className="font-medium">Biblical Wisdom Companion</p>
-            <p>This AI provides biblical insights and spiritual encouragement to support your faith journey. While it can help with understanding Scripture, nothing replaces reading God's Word directly. For personal counseling or pastoral care, consider speaking with your pastor or spiritual mentor.</p>
+            <p>This AI provides biblical insights and spiritual encouragement to support your faith journey. While it can help with understanding Scripture, nothing replaces reading God's Word directly. Prayer is the root of our connection with God, nourishing our relationship with Him. Besides prayer life, you may also find it helpful to seek support from trusted friends, mentors, or your faith community.</p>
           </div>
         </div>
       </div>
