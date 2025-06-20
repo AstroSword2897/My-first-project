@@ -176,20 +176,11 @@ const Home: NextPage = () => {
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Enhanced Hero Section */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/20">
-            <Sparkles className="w-5 h-5 text-yellow-300" />
-            <span className="text-white/90 text-sm font-medium">AI-Powered Spiritual Guidance</span>
-          </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Your Spiritual
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
             <span className="block bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Guidance Companion
+              <em>"God demonstrates His own love toward us, in that while we were still sinners, Christ died for us."</em>
             </span>
           </h1>
-          <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Explore God's Word, seek spiritual guidance, and grow in your faith with AI-powered biblical wisdom, 
-            thematic exploration, and personal reflection tools.
-          </p>
         </div>
 
         {/* Enhanced Main Content Tabs */}
